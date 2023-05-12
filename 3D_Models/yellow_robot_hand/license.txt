@@ -1,0 +1,11 @@
+Model Information:
+* title:	Robot Hand Modeling
+* source:	https://sketchfab.com/3d-models/robot-hand-modeling-663b8e6d4321490c92a4521bfd1ee763
+* author:	chenkl (https://sketchfab.com/chenkl)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Robot Hand Modeling" (https://sketchfab.com/3d-models/robot-hand-modeling-663b8e6d4321490c92a4521bfd1ee763) by chenkl (https://sketchfab.com/chenkl) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
