@@ -138,7 +138,7 @@ if (!!window.EventSource) {
 
   if (index_state == "1" && (index_state != old_index_state)){
 
-    loader.load( 'https://cdn.jsdelivr.net/gh/lucahhot/EE327_Webserver@master/robotic_hand/scene.gltf', function ( gltf ) {
+    loader.load( 'https://cdn.jsdelivr.net/gh/lucahhot/EE327_Webserver@master/3D_Models/robotic_hand/scene.gltf', function ( gltf ) {
 
       // Removing the old object
       scene.remove(cube);
@@ -156,7 +156,7 @@ if (!!window.EventSource) {
 
   if (index_state == "0" && (index_state != old_index_state)){
 
-    loader.load( 'https://cdn.jsdelivr.net/gh/lucahhot/EE327_Webserver@master/yellow_robot_hand/scene.gltf', function ( gltf ) {
+    loader.load( 'https://cdn.jsdelivr.net/gh/lucahhot/EE327_Webserver@master/3D_Models/yellow_robot_hand/scene.gltf', function ( gltf ) {
 
     // Removing the old object
     scene.remove(cube);
