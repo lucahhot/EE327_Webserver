@@ -93,7 +93,7 @@
     "buffers": [
         {
             "byteLength": 29520,
-            "uri": "hand_model_5555.bin"
+            "uri": "hand_model_55555.bin"
         }
     ],
     "bufferViews": [
@@ -171,7 +171,7 @@
     ],
     "nodes": [
         {
-            "name": "hand_model_5555",
+            "name": "hand_model_55555",
             "matrix": [
                 1.0,
                 0.0,
