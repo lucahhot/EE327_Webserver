@@ -138,7 +138,7 @@ if (!!window.EventSource) {
 
   if (index_state == "1" && (index_state != old_index_state)){
 
-    loader.load( 'https://cdn.jsdelivr.net/gh/lucahhot/EE327_Webserver@master/3D_Models/robotic_hand/scene.gltf', function ( gltf ) {
+    loader.load( 'https://cdn.jsdelivr.net/gh/lucahhot/EE327_Webserver@master/3D_Models/hand_model_11111/hand_model_11111.gltf', function ( gltf ) {
 
       // Removing the old object
       scene.remove(cube);
@@ -154,9 +154,9 @@ if (!!window.EventSource) {
     } );
   }
 
-  if (index_state == "0" && (index_state != old_index_state)){
+  if (index_state == "0.5" && (index_state != old_index_state)){
 
-    loader.load( 'https://cdn.jsdelivr.net/gh/lucahhot/EE327_Webserver@master/3D_Models/yellow_robot_hand/scene.gltf', function ( gltf ) {
+    loader.load( 'https://cdn.jsdelivr.net/gh/lucahhot/EE327_Webserver@master/3D_Models/hand_model_55555/hand_model_55555.gltf', function ( gltf ) {
 
     // Removing the old object
     scene.remove(cube);
@@ -172,6 +172,23 @@ if (!!window.EventSource) {
     } );
   }
 
+  if (index_state == "0" && (index_state != old_index_state)){
+
+    loader.load( 'https://cdn.jsdelivr.net/gh/lucahhot/EE327_Webserver@master/3D_Models/hand_model_00000/hand_model_00000.gltf', function ( gltf ) {
+
+    // Removing the old object
+    scene.remove(cube);
+
+    scene.add( gltf.scene );
+    cube = gltf.scene;
+    render();
+
+    }, undefined, function ( error ) {
+
+      console.error( "Could not load 3D model!" );
+
+    } );
+  }
 
   // Update old_index_state to index_state
   old_index_state = index_state;
