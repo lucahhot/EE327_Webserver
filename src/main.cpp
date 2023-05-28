@@ -21,7 +21,7 @@
 
 // Replace with your network credentials
 const char* ssid = "damien";
-const char* password = "12345678";
+const char* password = "0987654321";
 
 // Create AsyncWebServer object on port 80
 AsyncWebServer server(80);
@@ -397,9 +397,9 @@ void loop() {
   uint8_t* joint_states = finger_joint_state(calculated_data);
   delay(50);
 
-  //print_list<String[number_of_joints]>("Joint names:", Joint_name_list, number_of_joints);
+  print_list<String[number_of_joints]>("Joint names:", Joint_name_list, number_of_joints);
   // print_list<uint32_t[number_of_joints]>("Resistance values:", calculated_data, number_of_joints);
-  // print_list<uint8_t[number_of_joints]>("Joint states:", joint_states, number_of_joints);
+  print_list<uint8_t[number_of_joints]>("Joint states:", joint_states, number_of_joints);
 
   if ((millis() - lastFingerButton) > fingerDelay) {
   // Send Events to the Web Server with the Button Reading
