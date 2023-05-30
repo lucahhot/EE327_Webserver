@@ -1,0 +1,204 @@
+{
+    "asset": {
+        "version": "2.0",
+        "generator": "Open Asset Import Library (assimp v5.2.0)"
+    },
+    "extensionsUsed": [
+        "KHR_materials_volume",
+        "FB_ngon_encoding"
+    ],
+    "accessors": [
+        {
+            "bufferView": 0,
+            "byteOffset": 0,
+            "componentType": 5126,
+            "count": 556,
+            "type": "VEC3",
+            "max": [
+                43.650001525878909,
+                15.729999542236329,
+                49.2599983215332
+            ],
+            "min": [
+                -43.650001525878909,
+                -15.729999542236329,
+                -49.2599983215332
+            ]
+        },
+        {
+            "bufferView": 1,
+            "byteOffset": 0,
+            "componentType": 5126,
+            "count": 556,
+            "type": "VEC3",
+            "max": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "min": [
+                -1.0,
+                -1.0,
+                -1.0
+            ]
+        },
+        {
+            "bufferView": 2,
+            "byteOffset": 0,
+            "componentType": 5126,
+            "count": 556,
+            "type": "VEC2",
+            "max": [
+                1.0,
+                1.0
+            ],
+            "min": [
+                0.0,
+                0.0
+            ]
+        },
+        {
+            "bufferView": 3,
+            "byteOffset": 0,
+            "componentType": 5126,
+            "count": 556,
+            "type": "VEC4",
+            "max": [
+                0.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "min": [
+                0.0,
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        {
+            "bufferView": 4,
+            "byteOffset": 0,
+            "componentType": 5125,
+            "count": 888,
+            "type": "SCALAR",
+            "max": [
+                555
+            ],
+            "min": [
+                0
+            ]
+        }
+    ],
+    "buffers": [
+        {
+            "byteLength": 30240,
+            "uri": "hand_model_15551.bin"
+        }
+    ],
+    "bufferViews": [
+        {
+            "buffer": 0,
+            "byteOffset": 0,
+            "byteLength": 6672,
+            "target": 34962
+        },
+        {
+            "buffer": 0,
+            "byteOffset": 6672,
+            "byteLength": 6672,
+            "target": 34962
+        },
+        {
+            "buffer": 0,
+            "byteOffset": 13344,
+            "byteLength": 4448,
+            "target": 34962
+        },
+        {
+            "buffer": 0,
+            "byteOffset": 17792,
+            "byteLength": 8896,
+            "target": 34962
+        },
+        {
+            "buffer": 0,
+            "byteOffset": 26688,
+            "byteLength": 3552,
+            "target": 34963
+        }
+    ],
+    "materials": [
+        {
+            "name": "Material_0",
+            "pbrMetallicRoughness": {
+                "baseColorFactor": [
+                    0.29019609093666079,
+                    0.843137264251709,
+                    1.0,
+                    1.0
+                ],
+                "metallicFactor": 0.5,
+                "roughnessFactor": 0.5
+            },
+            "emissiveFactor": [
+                0.06666667014360428,
+                0.06666667014360428,
+                0.06666667014360428
+            ]
+        },
+        {
+            "name": "material"
+        }
+    ],
+    "meshes": [
+        {
+            "name": "meshes[0]",
+            "primitives": [
+                {
+                    "mode": 4,
+                    "material": 0,
+                    "indices": 4,
+                    "attributes": {
+                        "POSITION": 0,
+                        "NORMAL": 1,
+                        "TEXCOORD_0": 2,
+                        "COLOR_0": 3
+                    }
+                }
+            ]
+        }
+    ],
+    "nodes": [
+        {
+            "name": "hand_model_15551",
+            "matrix": [
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                17.647869110107423,
+                16.937040328979493,
+                19.066246032714845,
+                1.0
+            ],
+            "mesh": 0
+        }
+    ],
+    "scenes": [
+        {
+            "nodes": [
+                0
+            ]
+        }
+    ],
+    "scene": 0
+}
