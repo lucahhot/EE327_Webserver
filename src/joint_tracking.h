@@ -30,7 +30,7 @@ extern Button b_calibrate;
 extern Joint Joint_list[number_of_joints];
 
 void init_joints();
-void ARDUINO_ISR_ATTR isr();
+void ARDUINO_ISR_ATTR isr_calibrate_joints();
 void LED_1flash(uint8_t PIN);
 
 void update_Joint_res_opened(uint32_t* data);
