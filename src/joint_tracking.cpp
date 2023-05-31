@@ -21,7 +21,7 @@ void init_joints()
   // setting the pin modes
   pinMode(LED_calibrate_GPIO, OUTPUT);
   pinMode(b_calibrate_GPIO, INPUT_PULLUP);
-  attachInterrupt(b_calibrate_GPIO, isr, FALLING);
+  attachInterrupt(b_calibrate_GPIO, isr_calibrate_joints, FALLING);
   for (uint8_t i = 0; i < number_of_joints; i++){
       pinMode(Joint_GPIO_list[i], INPUT);
   }
@@ -30,7 +30,7 @@ void init_joints()
   digitalWrite(LED_calibrate_GPIO, LOW);
 }
 
-void ARDUINO_ISR_ATTR isr()
+void ARDUINO_ISR_ATTR isr_calibrate_joints()
 {
     b_calibrate.pressed = true;
 }

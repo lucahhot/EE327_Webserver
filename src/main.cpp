@@ -11,10 +11,6 @@
 
 #include <Arduino.h>
 
-#include <Adafruit_MPU6050.h>
-#include <Adafruit_Sensor.h>
-#include <joint_tracking.h>
-
 #include <WiFi.h>
 #include <AsyncTCP.h>
 #include <ESPAsyncWebServer.h>
@@ -23,17 +19,26 @@
 #include "SPIFFS.h"
 #include <wifi_grip.h>
 
+#include <Adafruit_MPU6050.h>
+#include <Adafruit_Sensor.h>
+#include <joint_tracking.h>
+
+#include <gesture_recognition.h>
+
 
 
 void setup() {
   Serial.begin(115200);
 
+  initMPU();
+
   initWiFi();
   initSPIFFS();
-  initMPU();
   initServer();
 
   init_joints();
+
+  //init_gesture();
 }
 
 void loop() {
@@ -43,8 +48,8 @@ void loop() {
   uint32_t* calculated_data = find_res(Joint_GPIO_list, number_of_joints);
   uint8_t* joint_states = finger_joint_state(calculated_data);
 
-  print_list<String[number_of_joints]>("Joint names:", Joint_name_list, number_of_joints);
-  print_list<uint8_t[number_of_joints]>("Joint states:", joint_states, number_of_joints);
+  //print_list<String[number_of_joints]>("Joint names:", Joint_name_list, number_of_joints);
+  //print_list<uint8_t[number_of_joints]>("Joint states:", joint_states, number_of_joints);
 
   send_joint_readings(joint_states);
 
@@ -57,5 +62,7 @@ void loop() {
       b_calibrate.pressed = false;
   }
 
-  delay(50);
+  //gesture_recognition_loop();
+
+  delay(10);
 }
