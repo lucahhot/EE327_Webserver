@@ -18,7 +18,7 @@
 
 <!DOCTYPE HTML><html>
 <head>
-  <title>ESP Web Server</title>
+  <title>GRIP Web Server</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" href="data:,">
   <link rel="stylesheet" type="text/css" href="style.css">
@@ -38,7 +38,7 @@
   <canvas class="webgl"></canvas>
   <script type="module" src="script.js"></script>
   <div class="topnav">
-    <h1><i class="far fa-compass"></i> MPU6050 <i class="far fa-compass"></i></h1>
+    <h1>GRIP Web Server</h1>
   </div>
   <div class="content">
     <div class="cards">
@@ -73,8 +73,11 @@
       </div>
       <div class="card">
         <p class="card-title">HAND STATE</p>
+        <p><span class="reading">Index State: <span id="thumb_state"></span> </span></p>
         <p><span class="reading">Index State: <span id="index_state"></span> </span></p>
         <p><span class="reading">Middle State: <span id="middle_state"></span> </span></p>
+        <p><span class="reading">Index State: <span id="ring_state"></span> </span></p>
+        <p><span class="reading">Index State: <span id="pinky_state"></span> </span></p>
       </div>
     </div>
     <div class="cube-content">

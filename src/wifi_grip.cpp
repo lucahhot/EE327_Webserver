@@ -249,8 +249,11 @@ void send_joint_readings(uint8_t* states)
 {
   if ((millis() - lastFingerButton) > fingerDelay) {
   // Send Events to the Web Server with the Button Reading
+  events.send(String(states[1]).c_str(),"thumb_reading",millis());
   events.send(String(states[0]).c_str(),"index_reading",millis());
   events.send(String(states[1]).c_str(),"middle_reading",millis());
+  events.send(String(states[1]).c_str(),"ring_reading",millis());
+  events.send(String(states[1]).c_str(),"pinky_reading",millis());
   lastFingerButton = millis();
   }
 }

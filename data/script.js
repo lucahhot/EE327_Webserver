@@ -5,10 +5,10 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 let scene, camera, renderer;
 
-var index_state = null;
-var old_index_state = null;
+var hand = null;
 
-var cube = null;
+var finger_states = null;
+var old_finger_states = null;
 
 function parentWidth(elem) {
   return elem.parentElement.clientWidth;
@@ -57,9 +57,9 @@ function init3D(){
 
   const material = new THREE.MeshFaceMaterial(cubeMaterials);
 
-  cube = new THREE.Mesh( geometry, material );
+  hand = new THREE.Mesh( geometry, material );
 
-  scene.add(cube);
+  scene.add(hand);
   camera.position.set(0, 0, 5);
   // camera.position.z = 15;
 }
@@ -83,6 +83,13 @@ window.addEventListener('resize', onWindowResize, false);
 // Create the 3D representation
 init3D();
 
+// String variable to keep track of finger states
+var thumb_state = null;
+var index_state = null;
+var middle_state = null;
+var ring_state = null;
+var pinky_state = null;
+
 // Create events for the sensor readings
 if (!!window.EventSource) {
   var source = new EventSource('/events');
@@ -104,11 +111,11 @@ if (!!window.EventSource) {
     document.getElementById("gyroY").innerHTML = obj.gyroY;
     document.getElementById("gyroZ").innerHTML = obj.gyroZ;
 
-    // Change cube rotation after receiving the readings
-    if (cube != null){
-      cube.rotation.x = obj.gyroY;
-      cube.rotation.z = obj.gyroX;
-      cube.rotation.y = obj.gyroZ;
+    // Change hand rotation after receiving the readings
+    if (hand != null){
+      hand.rotation.x = obj.gyroY;
+      hand.rotation.z = obj.gyroX;
+      hand.rotation.y = obj.gyroZ;
       render();
     }
   }, false);
@@ -126,80 +133,93 @@ if (!!window.EventSource) {
     document.getElementById("accZ").innerHTML = obj.accZ;
   }, false);
 
+  source.addEventListener('thumb_reading', function(e) {
+    console.log("thumb_reading", e.data);
+    document.getElementById("thumb_state").innerHTML = e.data;
+    thumb_state = e.data;
+  }, false);
+
   source.addEventListener('index_reading', function(e) {
     console.log("index_reading", e.data);
     document.getElementById("index_state").innerHTML = e.data;
-    // Changing the index state
     index_state = e.data;
-
-    // Depending on index state, load a different GLTF model
-
-  const loader = new GLTFLoader();
-
-  if (index_state == "1" && (index_state != old_index_state)){
-
-    loader.load( 'https://cdn.jsdelivr.net/gh/lucahhot/EE327_Webserver@master/3D_Models/hand_model_11111/hand_model_11111.gltf', function ( gltf ) {
-
-      // Removing the old object
-      scene.remove(cube);
-
-      scene.add( gltf.scene );
-      cube = gltf.scene;
-      render();
-
-    }, undefined, function ( error ) {
-
-      console.error( "Could not load 3D model!" );
-
-    } );
-  }
-
-  if (index_state == "0.5" && (index_state != old_index_state)){
-
-    loader.load( 'https://cdn.jsdelivr.net/gh/lucahhot/EE327_Webserver@master/3D_Models/hand_model_55555/hand_model_55555.gltf', function ( gltf ) {
-
-    // Removing the old object
-    scene.remove(cube);
-
-    scene.add( gltf.scene );
-    cube = gltf.scene;
-    render();
-
-    }, undefined, function ( error ) {
-
-      console.error( "Could not load 3D model!" );
-
-    } );
-  }
-
-  if (index_state == "0" && (index_state != old_index_state)){
-
-    loader.load( 'https://cdn.jsdelivr.net/gh/lucahhot/EE327_Webserver@master/3D_Models/hand_model_00000/hand_model_00000.gltf', function ( gltf ) {
-
-    // Removing the old object
-    scene.remove(cube);
-
-    scene.add( gltf.scene );
-    cube = gltf.scene;
-    render();
-
-    }, undefined, function ( error ) {
-
-      console.error( "Could not load 3D model!" );
-
-    } );
-  }
-
-  // Update old_index_state to index_state
-  old_index_state = index_state;
-
   }, false);
 
   source.addEventListener('middle_reading', function(e) {
     console.log("middle_reading", e.data);
     document.getElementById("middle_state").innerHTML = e.data;
+    middle_state = e.data;
   }, false);
 
+  source.addEventListener('ring_reading', function(e) {
+    console.log("ring_reading", e.data);
+    document.getElementById("ring_state").innerHTML = e.data;
+    ring_state = e.data;
+  }, false);
+
+  source.addEventListener('pinky_reading', function(e) {
+    console.log("pinky_reading", e.data);
+    document.getElementById("pink_state").innerHTML = e.data;
+    pinky_state = e.data;
+  }, false);
+
+  // Loading the correct 3D hand model 
+
+  // Concantenating the finger readings into a single string
+
+  finger_states = "hand_model_".concat(thumb_state.concat(index_state).concat(middle_state).concat(ring_state).concat(pinky_state));
+
+  // Loading the GLTF models from github repository
+  
+  const loader = new GLTFLoader();
+
+  // If finger_states is the same as old_finger_states, don't load a new model
+  if(finger_states != old_finger_states){
+
+    let load_address = "https://cdn.jsdelivr.net/gh/lucahhot/EE327_Webserver@master/3D_Models/".concat(finger_states).concat("/").concat(finger_states).concat(".gltf");
+    
+    loader.load(load_address, function( gltf ){
+
+      // Removing the old object
+      scene.remove(hand);
+
+      scene.add(gltf.scene);
+      hand = gltf.scene;
+      render();
+
+    }, undefined, function ( error )  {
+
+      // If the model is not found/doesn't exist, keep the existing model loaded
+      console.log("Could not find 3D model on github repo, keeping currently loaded model.")
+
+    } );
+
+  }
   
 }
+
+// // Changing the index state
+//     index_state = e.data;
+
+//     // Depending on index state, load a different GLTF model
+
+//   const loader = new GLTFLoader();
+
+//   if (index_state == "1" && (index_state != old_index_state)){
+
+//     loader.load( 'https://cdn.jsdelivr.net/gh/lucahhot/EE327_Webserver@master/3D_Models/hand_model_11111/hand_model_11111.gltf', function ( gltf ) {
+
+//       // Removing the old object
+//       scene.remove(hand);
+
+//       scene.add( gltf.scene );
+//       hand = gltf.scene;
+//       render();
+
+//     }, undefined, function ( error ) {
+
+//       console.error( "Could not load 3D model!" );
+
+//     } );
+//   }
 
