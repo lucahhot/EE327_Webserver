@@ -128,7 +128,7 @@ uint8_t* finger_joint_state(uint32_t* data)
             state_list[i] = 1; //Joint is half opened
         }
         else{
-            state_list[i] = 2; // Joint is fully opened
+            state_list[i] = 5; // Joint is fully opened
         }
     }
 
