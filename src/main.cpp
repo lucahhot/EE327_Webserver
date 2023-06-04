@@ -23,12 +23,13 @@
 #include <Adafruit_Sensor.h>
 #include <joint_tracking.h>
 
-//
-// GESTURE RECOGNITION FUNCTIONS
-//
+// ================================================================
+// ===                   GESTURE RECOGNITION                    ===
+// ================================================================
 
 // For whatever reason, placing #include "gesture_recognition_v1_inferencing.h" in a file that's not main.cpp causes
 // "multiple definition of..." errors, making creating seperate .cpp and .h files for the relevant functions very difficult.
+
 #include "gesture_recognition_v1_inferencing.h"
 
 #define b_gesture_GPIO      17
@@ -142,11 +143,41 @@ void ei_printf(const char *format, ...)
   }
 }
 
+// ================================================================
+// ===                        MAIN CODE                         ===
+// ================================================================
 
-//
-// MAIN CODE
-//
+void task_wifi_joints(void * parameters){
+  while(1){
+    send_mpu_readings();
 
+    uint32_t* calculated_data = find_res(Joint_GPIO_list, number_of_joints);
+    uint8_t* joint_states = finger_joint_state(calculated_data);
+
+    //print_list<String[number_of_joints]>("Joint names:", Joint_name_list, number_of_joints);
+    //print_list<uint8_t[number_of_joints]>("Joint states:", joint_states, number_of_joints);
+
+    send_joint_readings(joint_states);
+
+    delete[] calculated_data;
+    delete[] joint_states;
+
+    if (b_calibrate.pressed) {
+        Serial.printf("Calibration Initiated\n");
+        calibrate_joints();
+        b_calibrate.pressed = false;
+    }
+
+    vTaskDelay(50/portTICK_PERIOD_MS);
+  }
+}
+
+void task_gesture_recognition(void * parameters){
+  while(1){
+    gesture_recognition_loop();
+    vTaskDelay(5/portTICK_PERIOD_MS);
+  }
+}
 
 void setup() {
   Serial.begin(115200);
@@ -160,30 +191,28 @@ void setup() {
   init_joints();
 
   init_gesture();
+
+  xTaskCreatePinnedToCore(
+    task_wifi_joints,
+    "task_wifi_joints",
+    5000,
+    NULL,
+    2,
+    NULL,
+    CONFIG_ARDUINO_RUNNING_CORE
+  );
+
+  xTaskCreate(
+    task_gesture_recognition,
+    "task_gesture_recognition",
+    5000,
+    NULL,
+    1,
+    NULL
+  );
+
+  vTaskDelete(NULL);
 }
 
 void loop() {
-
-  send_mpu_readings();
-
-  uint32_t* calculated_data = find_res(Joint_GPIO_list, number_of_joints);
-  uint8_t* joint_states = finger_joint_state(calculated_data);
-
-  //print_list<String[number_of_joints]>("Joint names:", Joint_name_list, number_of_joints);
-  //print_list<uint8_t[number_of_joints]>("Joint states:", joint_states, number_of_joints);
-
-  send_joint_readings(joint_states);
-
-  delete[] calculated_data;
-  delete[] joint_states;
-
-  if (b_calibrate.pressed) {
-      Serial.printf("Calibration Initiated\n");
-      calibrate_joints();
-      b_calibrate.pressed = false;
-  }
-
-  gesture_recognition_loop();
-
-  delay(50);
 }
