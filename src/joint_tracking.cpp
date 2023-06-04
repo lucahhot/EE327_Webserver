@@ -1,8 +1,8 @@
 #include <arduino.h>
 #include <joint_tracking.h>
 
-String Joint_name_list[number_of_joints] = {"index_finger", "middle_finger"}; // variable names of each joint
-uint8_t Joint_GPIO_list[number_of_joints] = {32, 33}; // GPIO number measuring the resistance of each joint
+String Joint_name_list[number_of_joints] = {"thumb", "index", "middle", "ring", "pinky"}; // variable names of each joint
+uint8_t Joint_GPIO_list[number_of_joints] = {27, 26, 25, 33, 32}; // GPIO number measuring the resistance of each joint
 Button b_calibrate = {b_calibrate_GPIO, false};
 
 Joint Joint_list[number_of_joints];
@@ -114,13 +114,10 @@ uint8_t* finger_joint_state(uint32_t* data)
     for(uint8_t i = 0; i < number_of_joints; i++){
         int32_t open_diff = data[i] - Joint_list[i].res_opened;
         int32_t close_diff = data[i] - Joint_list[i].res_closed;
-
         int32_t res_middle = Joint_list[i].res_opened - Joint_list[i].res_closed;
         res_middle = abs(res_middle);
         int32_t mid_diff = data[i] - res_middle;
-
         int32_t min_res = std::min({abs(open_diff), abs(close_diff), abs(mid_diff)});
-
         if(min_res == abs(close_diff)){
             state_list[i] = 0; // Joint is closed
         }
