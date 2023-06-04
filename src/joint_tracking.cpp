@@ -114,11 +114,21 @@ uint8_t* finger_joint_state(uint32_t* data)
     for(uint8_t i = 0; i < number_of_joints; i++){
         int32_t open_diff = data[i] - Joint_list[i].res_opened;
         int32_t close_diff = data[i] - Joint_list[i].res_closed;
-        if(abs(close_diff) <= abs(open_diff)){
+
+        int32_t res_middle = Joint_list[i].res_opened - Joint_list[i].res_closed;
+        res_middle = abs(res_middle);
+        int32_t mid_diff = data[i] - res_middle;
+
+        int32_t min_res = std::min({abs(open_diff), abs(close_diff), abs(mid_diff)});
+
+        if(min_res == abs(close_diff)){
             state_list[i] = 0; // Joint is closed
         }
+        else if(min_res == abs(mid_diff)){
+            state_list[i] = 1; //Joint is half opened
+        }
         else{
-            state_list[i] = 1; //Joint is opened
+            state_list[i] = 2; // Joint is fully opened
         }
     }
 
