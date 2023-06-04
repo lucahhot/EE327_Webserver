@@ -112,32 +112,20 @@ uint8_t* finger_joint_state(uint32_t* data)
     uint8_t* state_list = new uint8_t[number_of_joints];
     
     for(uint8_t i = 0; i < number_of_joints; i++){
-        int32_t total_diff = Joint_list[i].res_opened - Joint_list[i].res_closed;
-        int32_t halfway_point = total_diff/2;
         int32_t open_diff = data[i] - Joint_list[i].res_opened;
         int32_t close_diff = data[i] - Joint_list[i].res_closed;
-        int32_t halfway_diff = data[i] - halfway_point;
-         if(abs(close_diff) <= abs(open_diff)){
-            // Joint is closer to being closed
-            if(abs(halfway_diff) <= abs(close_diff)){
-                // Joint is at halfway
-                state_list[i] = 5;
-            }
-            else{
-                // Joint is closed
-                state_list[i] = 0;
-            }
+        int32_t res_middle = Joint_list[i].res_opened - Joint_list[i].res_closed;
+        res_middle = abs(res_middle);
+        int32_t mid_diff = data[i] - res_middle;
+        int32_t min_res = std::min({abs(open_diff), abs(close_diff), abs(mid_diff)});
+        if(min_res == abs(close_diff)){
+            state_list[i] = 0; // Joint is closed
+        }
+        else if(min_res == abs(mid_diff)){
+            state_list[i] = 1; //Joint is half opened
         }
         else{
-            //Joint is closer to being opened
-            if(abs(halfway_diff) <= abs(open_diff)){
-                // Joint is at halfway
-                state_list[i] = 5;
-            }
-            else{
-                // Joint is opened
-                state_list[i] = 1;
-            } 
+            state_list[i] = 5; // Joint is fully opened
         }
     }
 

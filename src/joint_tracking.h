@@ -4,6 +4,7 @@
 #include <arduino.h>
 #include <Adafruit_MPU6050.h>
 #include <Adafruit_Sensor.h>
+#include <algorithm>
 
 #define LED_calibrate_GPIO      19
 #define b_calibrate_GPIO        18
