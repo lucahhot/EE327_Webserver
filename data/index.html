@@ -42,7 +42,7 @@
   </div>
   <div class="content">
     <div class="cards">
-      <div class="card">
+      <!-- <div class="card">
         <p class="card-title">GYROSCOPE</p>
         <p><span class="reading">X: <span id="gyroX"></span> rad</span></p>
         <p><span class="reading">Y: <span id="gyroY"></span> rad</span></p>
@@ -53,11 +53,20 @@
         <p><span class="reading">X: <span id="accX"></span> ms<sup>2</sup></span></p>
         <p><span class="reading">Y: <span id="accY"></span> ms<sup>2</sup></span></p>
         <p><span class="reading">Z: <span id="accZ"></span> ms<sup>2</sup></span></p>
-      </div>
-      <div class="card">
+      </div> -->
+      <!-- <div class="card">
         <p class="card-title">TEMPERATURE</p>
         <p><span class="reading"><span id="temp"></span> &deg;C</span></p>
         <p class="card-title">3D ANIMATION</p>
+      </div> -->
+      <div class="card">
+        <p class="card-title">HAND STATE</p>
+        <p><span class="reading">Thumb State: <span id="thumb_state"></span></span>&nbsp;&nbsp;&nbsp;
+          <span class="reading">Index State: <span id="index_state"></span></span>&nbsp;&nbsp;&nbsp;
+          <span class="reading">Middle State: <span id="middle_state"></span></span>&nbsp;&nbsp;&nbsp;
+          <span class="reading">Ring State: <span id="ring_state"></span></span>&nbsp;&nbsp;&nbsp;
+          <span class="reading">Pinky State: <span id="pinky_state"></span></span>&nbsp;&nbsp;&nbsp;
+        </p>
         <button id="reset" onclick="resetPosition(this)">RESET POSITION</button>
         <!-- <button id="resetX" onclick="resetPosition(this)">X</button>
         <button id="resetY" onclick="resetPosition(this)">Y</button>
@@ -70,14 +79,6 @@
             xhr.send();
           }
         </script>
-      </div>
-      <div class="card">
-        <p class="card-title">HAND STATE</p>
-        <p><span class="reading">Index State: <span id="thumb_state"></span> </span></p>
-        <p><span class="reading">Index State: <span id="index_state"></span> </span></p>
-        <p><span class="reading">Middle State: <span id="middle_state"></span> </span></p>
-        <p><span class="reading">Index State: <span id="ring_state"></span> </span></p>
-        <p><span class="reading">Index State: <span id="pinky_state"></span> </span></p>
       </div>
     </div>
     <div class="cube-content">

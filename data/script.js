@@ -23,6 +23,13 @@ function init3D(){
   scene = new THREE.Scene();
   scene.background = new THREE.Color(0xffffff);
 
+  const ambientLight = new THREE.AmbientLight( 0x404040 );
+  scene.add( ambientLight );
+
+  const dirLight = new THREE.DirectionalLight( 0xefefff, 1.5 );
+  dirLight.position.set( 10, 10, 10 );
+  scene.add( dirLight );
+
   camera = new THREE.PerspectiveCamera(75, parentWidth(document.getElementById("3Dcube")) / parentHeight(document.getElementById("3Dcube")), 0.1, 1000);
 
   renderer = new THREE.WebGLRenderer({ antialias: true , canvas: canvas});
@@ -60,7 +67,7 @@ function init3D(){
   hand = new THREE.Mesh( geometry, material );
 
   scene.add(hand);
-  camera.position.set(0, 0, 5);
+  camera.position.set(0, 0, 15);
   // camera.position.z = 15;
 }
 
@@ -84,11 +91,11 @@ window.addEventListener('resize', onWindowResize, false);
 init3D();
 
 // String variable to keep track of finger states
-var thumb_state = null;
-var index_state = null;
-var middle_state = null;
-var ring_state = null;
-var pinky_state = null;
+var thumb_state = 1;
+var index_state = 1;
+var middle_state = 1;
+var ring_state = 1;
+var pinky_state = 1;
 
 // Create events for the sensor readings
 if (!!window.EventSource) {
@@ -107,9 +114,9 @@ if (!!window.EventSource) {
   source.addEventListener('gyro_readings', function(e) {
     //console.log("gyro_readings", e.data);
     var obj = JSON.parse(e.data);
-    document.getElementById("gyroX").innerHTML = obj.gyroX;
-    document.getElementById("gyroY").innerHTML = obj.gyroY;
-    document.getElementById("gyroZ").innerHTML = obj.gyroZ;
+    // document.getElementById("gyroX").innerHTML = obj.gyroX;
+    // document.getElementById("gyroY").innerHTML = obj.gyroY;
+    // document.getElementById("gyroZ").innerHTML = obj.gyroZ;
 
     // Change hand rotation after receiving the readings
     if (hand != null){
@@ -120,54 +127,65 @@ if (!!window.EventSource) {
     }
   }, false);
 
-  source.addEventListener('temperature_reading', function(e) {
-    console.log("temperature_reading", e.data);
-    document.getElementById("temp").innerHTML = e.data;
-  }, false);
+  // source.addEventListener('temperature_reading', function(e) {
+  //   console.log("temperature_reading", e.data);
+  //   document.getElementById("temp").innerHTML = e.data;
+  // }, false);
 
-  source.addEventListener('accelerometer_readings', function(e) {
-    console.log("accelerometer_readings", e.data);
-    var obj = JSON.parse(e.data);
-    document.getElementById("accX").innerHTML = obj.accX;
-    document.getElementById("accY").innerHTML = obj.accY;
-    document.getElementById("accZ").innerHTML = obj.accZ;
-  }, false);
+  // source.addEventListener('accelerometer_readings', function(e) {
+  //   console.log("accelerometer_readings", e.data);
+  //   var obj = JSON.parse(e.data);
+  //   document.getElementById("accX").innerHTML = obj.accX;
+  //   document.getElementById("accY").innerHTML = obj.accY;
+  //   document.getElementById("accZ").innerHTML = obj.accZ;
+  // }, false);
 
   source.addEventListener('thumb_reading', function(e) {
-    console.log("thumb_reading", e.data);
+    // console.log("thumb_reading", e.data);
     document.getElementById("thumb_state").innerHTML = e.data;
     thumb_state = e.data;
+    loadModel();
   }, false);
 
   source.addEventListener('index_reading', function(e) {
-    console.log("index_reading", e.data);
+    // console.log("index_reading", e.data);
     document.getElementById("index_state").innerHTML = e.data;
     index_state = e.data;
+    loadModel();
   }, false);
 
   source.addEventListener('middle_reading', function(e) {
-    console.log("middle_reading", e.data);
+    // console.log("middle_reading", e.data);
     document.getElementById("middle_state").innerHTML = e.data;
     middle_state = e.data;
+    loadModel();
   }, false);
 
   source.addEventListener('ring_reading', function(e) {
-    console.log("ring_reading", e.data);
+    // console.log("ring_reading", e.data);
     document.getElementById("ring_state").innerHTML = e.data;
     ring_state = e.data;
+    loadModel();
   }, false);
 
   source.addEventListener('pinky_reading', function(e) {
-    console.log("pinky_reading", e.data);
-    document.getElementById("pink_state").innerHTML = e.data;
+    // console.log("pinky_reading", e.data);
+    document.getElementById("pinky_state").innerHTML = e.data;
     pinky_state = e.data;
+    loadModel();
   }, false);
+  
+}
+
+function loadModel(){
 
   // Loading the correct 3D hand model 
 
   // Concantenating the finger readings into a single string
 
-  finger_states = "hand_model_".concat(thumb_state.concat(index_state).concat(middle_state).concat(ring_state).concat(pinky_state));
+  finger_states = "hand_model_" + thumb_state + index_state + middle_state + ring_state + pinky_state;
+
+  console.log("finger_states",finger_states);
 
   // Loading the GLTF models from github repository
   
@@ -176,6 +194,8 @@ if (!!window.EventSource) {
   // If finger_states is the same as old_finger_states, don't load a new model
   if(finger_states != old_finger_states){
 
+    console.log("Loading 3D Hand Model...")
+
     let load_address = "https://cdn.jsdelivr.net/gh/lucahhot/EE327_Webserver@master/3D_Models/".concat(finger_states).concat("/").concat(finger_states).concat(".gltf");
     
     loader.load(load_address, function( gltf ){
@@ -183,6 +203,8 @@ if (!!window.EventSource) {
       // Removing the old object
       scene.remove(hand);
 
+      // Scaling and adding new loaded object
+      gltf.scene.scale.set(0.1, 0.1, 0.1);
       scene.add(gltf.scene);
       hand = gltf.scene;
       render();
@@ -195,31 +217,12 @@ if (!!window.EventSource) {
     } );
 
   }
+
+  old_finger_states = finger_states;
   
 }
 
-// // Changing the index state
-//     index_state = e.data;
 
-//     // Depending on index state, load a different GLTF model
 
-//   const loader = new GLTFLoader();
 
-//   if (index_state == "1" && (index_state != old_index_state)){
-
-//     loader.load( 'https://cdn.jsdelivr.net/gh/lucahhot/EE327_Webserver@master/3D_Models/hand_model_11111/hand_model_11111.gltf', function ( gltf ) {
-
-//       // Removing the old object
-//       scene.remove(hand);
-
-//       scene.add( gltf.scene );
-//       hand = gltf.scene;
-//       render();
-
-//     }, undefined, function ( error ) {
-
-//       console.error( "Could not load 3D model!" );
-
-//     } );
-//   }
 

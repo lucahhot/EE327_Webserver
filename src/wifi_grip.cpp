@@ -2,8 +2,8 @@
 #include <wifi_grip.h>
 
 // Replace with your network credentials
-const char* ssid = "damien";
-const char* password = "0987654321";
+const char* ssid = "luc";
+const char* password = "lucahhot0106";
 
 // Create AsyncWebServer object on port 80
 AsyncWebServer server(80);
@@ -249,11 +249,15 @@ void send_joint_readings(uint8_t* states)
 {
   if ((millis() - lastFingerButton) > fingerDelay) {
   // Send Events to the Web Server with the Button Reading
-  events.send(String(states[1]).c_str(),"thumb_reading",millis());
-  events.send(String(states[0]).c_str(),"index_reading",millis());
-  events.send(String(states[1]).c_str(),"middle_reading",millis());
-  events.send(String(states[1]).c_str(),"ring_reading",millis());
-  events.send(String(states[1]).c_str(),"pinky_reading",millis());
+  events.send(String(states[0]).c_str(),"thumb_reading",millis());
+  events.send(String(states[1]).c_str(),"index_reading",millis());
+  events.send(String(states[2]).c_str(),"middle_reading",millis());
+  events.send(String(states[3]).c_str(),"ring_reading",millis());
+  events.send(String(states[4]).c_str(),"pinky_reading",millis());
+  // events.send(String(0).c_str(),"middle_reading",millis());
+  // events.send(String(0).c_str(),"ring_reading",millis());
+  // events.send(String(0).c_str(),"pinky_reading",millis());
+
   lastFingerButton = millis();
   }
 }

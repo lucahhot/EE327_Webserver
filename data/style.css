@@ -35,7 +35,7 @@ body {
   font-weight: bold;
 }
 .cards {
-  max-width: 1600px;
+  max-width: 800 px;
   margin: 0 auto;
   display: grid; grid-gap: 2rem;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -58,6 +58,7 @@ body {
   display: inline-block;
   font-size: 14px; width: 150px;
   border-radius: 4px;
+  margin-bottom: 20px;
 }
 #resetX, #resetY, #resetZ{
   border: none;
