@@ -2,7 +2,7 @@
 #include <joint_tracking.h>
 
 String Joint_name_list[number_of_joints] = {"thumb", "index", "middle", "ring", "pinky"}; // variable names of each joint
-uint8_t Joint_GPIO_list[number_of_joints] = {27, 26, 25, 33, 32}; // GPIO number measuring the resistance of each joint
+uint8_t Joint_GPIO_list[number_of_joints] = {36, 39, 34, 33, 32}; // GPIO number measuring the resistance of each joint
 // String Joint_name_list[number_of_joints] = {"thumb","index"};
 // uint8_t Joint_GPIO_list[number_of_joints] = {33,32};
 Button b_calibrate = {b_calibrate_GPIO, false};
@@ -102,6 +102,7 @@ uint32_t* find_res(uint8_t* pins, uint8_t numPins)
       uint32_t val = GPIOValues[i];
       uint32_t res_val = known_R*(Vin/(val/1000.0) - 1.0);
       res_values[i] = res_val;
+    Serial.printf("Finger %i resistance = %i\n", i, res_val);
     }
 
     delete[] GPIOValues;
@@ -117,7 +118,7 @@ uint8_t* finger_joint_state(uint32_t* data)
         int32_t open_diff = data[i] - Joint_list[i].res_opened;
         int32_t close_diff = data[i] - Joint_list[i].res_closed;
         int32_t res_middle = Joint_list[i].res_opened - Joint_list[i].res_closed;
-        res_middle = abs(res_middle)/2;
+        res_middle = abs(res_middle);
         int32_t mid_diff = data[i] - res_middle;
         int32_t min_res = std::min({abs(open_diff), abs(close_diff), abs(mid_diff)});
         if(min_res == abs(close_diff)){

@@ -32,9 +32,9 @@ float accX, accY, accZ;
 float temperature;
 
 //Gyroscope sensor deviation
-float gyroXerror = 0.07;
-float gyroYerror = 0.03;
-float gyroZerror = 0.01;
+float gyroXerror = 0.2;
+float gyroYerror = 0.2;
+float gyroZerror = 0.2;
 
 // Init MPU6050
 void initMPU()
@@ -185,16 +185,19 @@ String getGyroReadings()
   float gyroX_temp = g.gyro.x;
   if(abs(gyroX_temp) > gyroXerror)  {
     gyroX += gyroX_temp/50.00;
+    Serial.printf("gyroX_temp = %f\n", gyroX_temp);
   }
   
   float gyroY_temp = g.gyro.y;
   if(abs(gyroY_temp) > gyroYerror) {
     gyroY += gyroY_temp/70.00;
+    Serial.printf("gyroY_temp = %f\n", gyroY_temp);
   }
 
   float gyroZ_temp = g.gyro.z;
   if(abs(gyroZ_temp) > gyroZerror) {
     gyroZ += gyroZ_temp/90.00;
+    Serial.printf("gyroZ_temp = %f\n", gyroZ_temp);
   }
 
   readings["gyroX"] = String(gyroX);
@@ -251,6 +254,8 @@ void send_joint_readings(uint8_t* states)
   // Send Events to the Web Server with the Button Reading
   events.send(String(states[0]).c_str(),"thumb_reading",millis());
   events.send(String(states[1]).c_str(),"index_reading",millis());
+  // events.send(String(0).c_str(),"thumb_reading",millis());
+  // events.send(String(0).c_str(),"index_reading",millis());
   events.send(String(states[2]).c_str(),"middle_reading",millis());
   events.send(String(states[3]).c_str(),"ring_reading",millis());
   events.send(String(states[4]).c_str(),"pinky_reading",millis());

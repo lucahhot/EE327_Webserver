@@ -33,7 +33,8 @@
 #include "gesture_recognition_v1_inferencing.h"
 
 #define b_gesture_GPIO      17
-#define LED_gesture_GPIO    5
+#define LED_gesture_GPIO    13
+#define LED_power_GPIO      35
 #define FREQUENCY_HZ        60
 #define INTERVAL_MS         (1000 / (FREQUENCY_HZ + 1))
 
@@ -52,6 +53,7 @@ void ARDUINO_ISR_ATTR isr_gesture()
 
 void init_gesture()
 {
+
   pinMode(LED_gesture_GPIO, OUTPUT);
   pinMode(b_gesture_GPIO, INPUT_PULLUP);
   attachInterrupt(b_gesture_GPIO, isr_gesture, FALLING);
@@ -168,7 +170,7 @@ void task_wifi_joints(void * parameters){
         b_calibrate.pressed = false;
     }
 
-    vTaskDelay(50/portTICK_PERIOD_MS);
+    vTaskDelay(75/portTICK_PERIOD_MS);
   }
 }
 
@@ -180,7 +182,11 @@ void task_gesture_recognition(void * parameters){
 }
 
 void setup() {
+
   Serial.begin(115200);
+
+  pinMode(LED_power_GPIO, OUTPUT);
+  digitalWrite(LED_power_GPIO, HIGH);
 
   initMPU();
 

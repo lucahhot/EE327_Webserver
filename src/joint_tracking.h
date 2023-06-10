@@ -6,8 +6,8 @@
 #include <Adafruit_Sensor.h>
 #include <algorithm>
 
-#define LED_calibrate_GPIO      19
-#define b_calibrate_GPIO        18
+#define LED_calibrate_GPIO      2
+#define b_calibrate_GPIO        19
 #define number_of_joints        5 // number of joints being measured
 #define Vin                     3.3
 #define known_R                 2200.0

@@ -120,9 +120,9 @@ if (!!window.EventSource) {
 
     // Change hand rotation after receiving the readings
     if (hand != null){
-      hand.rotation.x = obj.gyroY;
-      hand.rotation.z = obj.gyroX;
-      hand.rotation.y = obj.gyroZ;
+      hand.rotation.x = obj.gyroY*5;
+      hand.rotation.z = obj.gyroX*5;
+      hand.rotation.y = obj.gyroZ*5;
       render();
     }
   }, false);
@@ -207,6 +207,8 @@ function loadModel(){
       gltf.scene.scale.set(0.1, 0.1, 0.1);
       scene.add(gltf.scene);
       hand = gltf.scene;
+      hand.rotation.x = THREE.Math.degToRad(180);
+      hand.rotation.z = THREE.Math.degToRad(90);
       render();
 
     }, undefined, function ( error )  {
